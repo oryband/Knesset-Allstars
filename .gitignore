@@ -1,9 +1,12 @@
-# Mac OS X Finder and whatnot
+# Mac OS X Finder and whatnot.
 .DS_Store
 
 # Python compiled files.
-.pyc
+*.pyc
 
-# automatic backup files
+# automatic backup files.
 *.swp
+
+# SQLite db files.
+*.sqlite3
 

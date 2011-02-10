@@ -23,6 +23,11 @@
       #field     { position: relative; }
       #field img { width: 100%; }
 
+      #field>div { position: absolute; }
+      #field>div img, .member img { width: 25px; }
+
+      .member     { margin: 2px; display:inline; line-height: 0;}
+
       .role { height: 6em; position: absolute; background-color: black; opacity: 0.5; }
 
       .forward  { top: 10%; width: 10em; }
@@ -32,11 +37,6 @@
       .center { left:  32%; width: 36%; }
       .left   { left:  10%; width: 15%; }
       .right  { right: 10%; width: 15%; }
-
-      #members    { line-height: 0; }
-
-      .member img { width: 25px;  }
-      .member     { margin: 2px; display:inline; line-height: 0;}
 
       .oknesset_frame { z-index: 1; } /* Letting the widget override the members' profile pictures. */
 
@@ -80,26 +80,32 @@
       var callback = function (data, textStatus, xhr) {
           var template = '{{#member}}{{#is_current}}<div class="member" id="member_{{id}}" mk_id="{{id}}"><img src="{{img_url}}"></div>{{/is_current}}{{/member}}';
 
-          var images = Mustache.to_html( template, {"member": data} );
+          var images = Mustache.to_html( template, {"member": data} ); // TODO: Load pre-cached members (development use ONLY).
           $('#members').html(images);
-          generateMkFrameSet({classHook:'member', okURL: 'http://oknesset.org'});
+          //generateMkFrameSet({classHook:'member', okURL: 'http://oknesset.org'}); // Init Memeber tool-tip plugin.
 
           $('.member').draggable( { 
               revert: "invalid",
           } );
 
           $('.role').droppable( { 
-              accept: '.member',
+              accept : '.member',
+              drop : function( e, ui ) {
+                ui.draggable.detach().appendTo(this);
+              }
           });
           $('#members').droppable( { 
               accept: '.member',
+              drop : function( e, ui ) {
+                ui.draggable.detach().appendTo(this);
+              }
           });
       };
 
       $(document).ready( function() {
-        callback(document.members);
+        callback(document.members); // TODO: Development use ONLY.
       });
-      //$.getJSON(url, {}, callback);
+      //$.getJSON(url, {}, callback); // TODO: This should be used on prouction.
   </script>
   
 </body>

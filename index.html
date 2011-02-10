@@ -35,11 +35,9 @@
       .left         { left:  10%; width: 15%; }
       .right        { right: 10%; width: 15%; }
 
-      #members      { }
-      #members img  { width: 3em;  }
-      #members div  { float: right; list-style-type: none; }
-
-      .member       { margin: 0.2em; }
+      #members      {line-height: 0; }
+      .member img  { width: 25px;  }
+      .member       { margin: 2px; display:inline; line-height: 0;}
 
   </style>
 
@@ -71,28 +69,38 @@
   <script src="jquery-ui-1.8.7.custom.min.js" /></script>
 
   <script src="mustache.js" /></script>
+  <script src="members.js" /></script>
   <!--<script src="knesset-allstars.js"></script>-->
   <script>
-      //var url = 'http://oknesset.org/api/member/';
-      var url = 'http://localhost:8000/api/member/';
+      var url = 'http://oknesset.org/api/member/';
+      // var url = 'http://localhost:8000/api/member/';
       //var url = 'http://localhost:8000/api/member/771/';
 
       var callback = function (data, textStatus, xhr) {
-          var template = '{{#member}} <div class="member draggable"> <img src="{{img_url}}"> </div> {{/member}}';
+        // var template = '{{#member}}<div id="member_{{id}} "class="member draggable"> <img src="{{img_url}}"></div> {{/member}}';
+        var template = '{{#member}}{{#is_current}}<div id="member_{{id}} "class="member"> <img src="{{img_url}}"></div>{{/is_current}}{{/member}}';
 
           var images = Mustache.to_html(template, {"member": data} );
           $('#members').html(images);
 
           $('.member').draggable( { 
-         //     revert:       "invalid",
+              revert:       "invalid",
           } );
 
-          $('#role').droppable( { 
+          $('.role').droppable( { 
+              accept:   '.member',
+          });
+          $('#members').droppable( { 
               accept:   '.member',
           });
       };
+      $(document).ready( function() {
+        callback(document.members);
+      });
 
-      $.getJSON(url, {}, callback);
+
+      //$.getJSON(url, {}, callback);
+
   </script>
   
 </body>

@@ -82,7 +82,6 @@
 
           var images = Mustache.to_html( template, {"member": data} );
           $('#members').html(images);
-          generateMkFrameSet({classHook:'member', okURL: 'http://oknesset.org'});
 
           $('.member').draggable( { 
               revert: "invalid",

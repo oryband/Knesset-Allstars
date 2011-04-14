@@ -23,12 +23,7 @@
       #field     { position: relative; }
       #field img { width: 100%; }
 
-      #field>div { position: absolute; }
-      #field>div img, .member img { width: 25px; }
-
-      .member     { margin: 2px; display:inline; line-height: 0;}
-
-      .role { height: 6em; position: absolute; background-color: black; opacity: 0.5; }
+      .role { height: 6em; position: absolute; background-color: black; opacity: 0.2; }
 
       .forward  { top: 10%; width: 10em; }
       .midfield { top: 44%; width: 10em; }
@@ -38,8 +33,12 @@
       .left   { left:  10%; width: 15%; }
       .right  { right: 10%; width: 15%; }
 
-      .oknesset_frame { z-index: 1; } /* Letting the widget override the members' profile pictures. */
+      #members    { line-height: 0; }
 
+      .member img { width: 36px;  }
+      .member     { margin: 2px; display:inline; line-height: 0;}
+
+      .oknesset_frame { z-index: 1; } /* Letting the widget override the members' profile pictures. */
   </style>
 
 </head>
@@ -82,7 +81,6 @@
 
           var images = Mustache.to_html( template, {"member": data} ); // TODO: Load pre-cached members (development use ONLY).
           $('#members').html(images);
-          //generateMkFrameSet({classHook:'member', okURL: 'http://oknesset.org'}); // Init Memeber tool-tip plugin.
 
           $('.member').draggable( { 
               revert: "invalid",
@@ -110,3 +108,4 @@
   
 </body>
 </html>
+

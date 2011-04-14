@@ -26,18 +26,16 @@
         .midfield { top: 40%; width: 10em; }
         .defence  { top: 70%; width: 10em; }
 
-        .center { left:  32%; width: 36%; }
+        .center       { left:  32%; width: 36%; }
         .center-left  { left:  32%; width: 16%; }
         .center-right { left:  52%; width: 16%; }
-        .left   { left:  10%; width: 15%; }
-        .right  { right: 10%; width: 15%; }
+        .left         { left:  10%; width: 15%; }
+        .right        { right: 10%; width: 15%; }
 
-        #members    { line-height: 0; }
+        #faces { line-height: 0;}
 
-        .member img { width: 36px;  }
-        .member     { margin: 2px; display:inline; line-height: 0;}
-
-        .oknesset_frame { z-index: 1; } /* Letting the widget override the members' profile pictures. */
+        .member img { width: 36px;  z-index: 1;}
+        .member     { margin: 2px; display:inline; line-height: 0; z-index: 1; }  /* Letting the widget override the members' profile pictures. */
     </style>
 </head>
 
@@ -49,21 +47,24 @@
 
     <div id='field'>
         <img src='img/field.png' />
-        <span class='role forward  left'></span>
+        <span class='role forward  left'></span>  <!-- 3-4-3 Formation -->
         <span class='role forward  center'></span>
         <span class='role forward  right'></span>
 
         <span class='role midfield left'></span>
         <span class='role midfield center-left'></span>
         <span class='role midfield center-right'></span>
-        <span class='role midfield right'> </span>
+        <span class='role midfield right'></span>
 
         <span class='role defence  left'></span>
         <span class='role defence  center'></span>
         <span class='role defence  right'></span>
     </div>
 
-    <div id='members'></div>
+    <div id="members">
+        <div id="member_info"></div>
+        <div id="faces"></div>
+    </div>
 
     <footer></footer>
 
@@ -82,14 +83,26 @@
 
     <script>
         var that;
-        var callback = function (data, formation) {
+        var initMembers = function (data, formation) {
             var template = '{{#member}}{{#is_current}}<div class="member" id="member_{{id}}" mk_id="{{id}}"><img src="{{img_url}}"></div>{{/is_current}}{{/member}}';
 
             var images = Mustache.to_html( template, {'member': data} );  // Build member's images list.
-            $('#members').html(images);  // Push images to HTML.
+            $('#faces').html(images);  // Push images to HTML.
 
             $('.member') .draggable( { revert : 'invalid' } );  // Set members in list to be draggable.
-            $('#members').droppable( { accept : '.member' } );  // Set members list to be a droppable area.
+            $('#faces').droppable( { accept : '.member' } );  // Set members list to be a droppable area.
+
+            $('.member').hover( function (event) {  // Show member's data on hover.
+                if (event.type == 'mouseenter') { // && (!jQuery('.ui-draggable-dragging') )) {
+                    var id = parseInt(jQuery(event.currentTarget).attr('mk_id'), 10);
+                    $.each(document.members, function (i, m) {
+                        if (m.id == id) {
+                            $('#member_info').html(m.name);
+                            return (false);
+                        }
+                    });
+                }
+            });
 
             $('.role').droppable({
                 accept : '.member',  // Set role 'baskets' to be a droppable area.
@@ -116,12 +129,12 @@
                     } else if ( $.inArray('right', classes) != -1 ) {
                         side = 'right';
                     }
-                        
+
                     var oldMkId = formation[position + '-' + side];
                     var newMkId = parseInt( ui.draggable.attr('mk_id'), 10 );
 
                     // Old member cleanup.
-                    $.each(formation, function(key, value) {  // Clear oldMkId from old basket.
+                    $.each(formation, function (key, value) {  // TODO: Finish this. Clear oldMkId from old basket.
                         /*if (value == oldMkId) {
                             formation[key] = null;
                             return false;  // =break
@@ -134,8 +147,6 @@
                     }
 
                     formation[position + '-' + side] = newMkId;  // Push new member to basket.
-
-                    console.log(formation);
                 }
             });
         };
@@ -156,19 +167,18 @@
                 'defence-right'         : null
             };
 
-            $('#save').click(function (e) {
+            $('#save').click( function (e) {
                 var string = '';
                 $.each(formation, function(key, value) {
                     string += key + ' : ' + value + '<br/>'; 
                 });
-                
-            
+
                 $('#formation').html(string);
             });
 
-            callback(document.members, formation);
+            initMembers(document.members, formation);
         });
-        //$.getJSON(url, {}, callback);
+        //$.getJSON(url, {}, initMembers);  // TODO: Use this for production.
     </script>
 
 </body>

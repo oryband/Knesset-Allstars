@@ -1,0 +1,26 @@
+body     { direction: rtl; width: 90%; margin: 0.5em auto; }
+body>div { width: 50%; float: left; margin: 0; padding: 0; }
+img      { -webkit-border-radius: 1em; }
+
+#field     { position: relative; }
+#field img { width: 100%; }
+
+#save, #formation { direction: ltr; }
+
+.role { height: 10em; position: absolute; background-color: black; opacity: 0.2; }
+
+.forward  { top: 10%; width: 10em; }
+.midfield { top: 40%; width: 10em; }
+.defence  { top: 70%; width: 10em; }
+
+.center       { left:  32%; width: 36%; }
+.center-left  { left:  32%; width: 16%; }
+.center-right { left:  52%; width: 16%; }
+.left         { left:  10%; width: 15%; }
+.right        { right: 10%; width: 15%; }
+
+#faces { line-height: 0;}
+
+.member img { width: 36px;  z-index: 1;}
+.member     { margin: 2px; display:inline; line-height: 0; z-index: 1; }  /* Letting the widget override the members' profile pictures. */
+

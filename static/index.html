@@ -10,33 +10,7 @@
 
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>  <!--  Mobile viewport optimized: j.mp/bplateviewport -->
 
-    <style>
-        body     { direction: rtl; width: 90%; margin: 0.5em auto; }
-        body>div { width: 50%; float: left; margin: 0; padding: 0; }
-        img      { -webkit-border-radius: 1em; }
-
-        #field     { position: relative; }
-        #field img { width: 100%; }
-
-        #save, #formation { direction: ltr; }
-
-        .role { height: 10em; position: absolute; background-color: black; opacity: 0.2; }
-
-        .forward  { top: 10%; width: 10em; }
-        .midfield { top: 40%; width: 10em; }
-        .defence  { top: 70%; width: 10em; }
-
-        .center       { left:  32%; width: 36%; }
-        .center-left  { left:  32%; width: 16%; }
-        .center-right { left:  52%; width: 16%; }
-        .left         { left:  10%; width: 15%; }
-        .right        { right: 10%; width: 15%; }
-
-        #faces { line-height: 0;}
-
-        .member img { width: 36px;  z-index: 1;}
-        .member     { margin: 2px; display:inline; line-height: 0; z-index: 1; }  /* Letting the widget override the members' profile pictures. */
-    </style>
+    <link rel="stylesheet" type="text/css" href='css/knesset-allstars.css'/>
 </head>
 
 <body>
@@ -81,106 +55,7 @@
     <script src='http://oknesset.org/static/js/oknesset_widget.js'></script> 
     <script>!window.jQuery && document.write(unescape('%3Cscript src="js/oknesset_widget.js"%3E%3C/script%3E'))</script>
 
-    <script>
-        var that;
-        var initMembers = function (data, formation) {
-            var template = '{{#member}}{{#is_current}}<div class="member" id="member_{{id}}" mk_id="{{id}}"><img src="{{img_url}}"></div>{{/is_current}}{{/member}}';
-
-            var images = Mustache.to_html( template, {'member': data} );  // Build member's images list.
-            $('#faces').html(images);  // Push images to HTML.
-
-            $('.member') .draggable( { revert : 'invalid' } );  // Set members in list to be draggable.
-            $('#faces').droppable( { accept : '.member' } );  // Set members list to be a droppable area.
-
-            $('.member').hover( function (event) {  // Show member's data on hover.
-                if (event.type == 'mouseenter') { // && (!jQuery('.ui-draggable-dragging') )) {
-                    var id = parseInt(jQuery(event.currentTarget).attr('mk_id'), 10);
-                    $.each(document.members, function (i, m) {
-                        if (m.id == id) {
-                            $('#member_info').html(m.name);
-                            return (false);
-                        }
-                    });
-                }
-            });
-
-            $('.role').droppable({
-                accept : '.member',  // Set role 'baskets' to be a droppable area.
-                drop   : function (e, ui) {  // Add member to formation on drop to basket.
-                    var classes = $(this)[0].className.split(/\s+/);
-                    var position, side;
-
-                    if ( $.inArray('forward', classes) != -1 ) {
-                        position = 'forward';
-                    } else if ( $.inArray('midfield', classes) != -1 ) {
-                        position = 'midfield';
-                    } else if ( $.inArray('defence', classes) != -1 ) {
-                        position = 'defence';
-                    }
-
-                    if ( $.inArray('left', classes) != -1 ) {
-                        side = 'left';
-                    } else if ( $.inArray('center', classes) != -1 ) {
-                        side = 'center';
-                    } else if ( $.inArray('center-left', classes) != -1 ) {
-                        side = 'center-left';
-                    } else if ( $.inArray('center-right', classes) != -1 ) {
-                        side = 'center-right';
-                    } else if ( $.inArray('right', classes) != -1 ) {
-                        side = 'right';
-                    }
-
-                    var oldMkId = formation[position + '-' + side];
-                    var newMkId = parseInt( ui.draggable.attr('mk_id'), 10 );
-
-                    // Old member cleanup.
-                    $.each(formation, function (key, value) {  // TODO: Finish this. Clear oldMkId from old basket.
-                        /*if (value == oldMkId) {
-                            formation[key] = null;
-                            return false;  // =break
-                        }*/
-                    });
-                    if ( oldMkId != null && newMkId != oldMkId ) {  // Return old member to members' list.
-                        var re = '.member[mk_id="' + oldMkId + '"]';
-                        $(re).css('left', 0);
-                        $(re).css('top',  0);
-                    }
-
-                    formation[position + '-' + side] = newMkId;  // Push new member to basket.
-                }
-            });
-        };
-
-        $(document).ready( function() {
-            var formation = {
-                'forward-left'          : null,
-                'forward-center'        : null,
-                'forward-right'         : null,
-
-                'midfield-left'         : null,
-                'midfield-center-left'  : null,
-                'midfield-center-right' : null,
-                'midfield-right'        : null,
-
-                'defence-left'          : null,
-                'defence-center'        : null,
-                'defence-right'         : null
-            };
-
-            $('#save').click( function (e) {
-                var string = '';
-                $.each(formation, function(key, value) {
-                    string += key + ' : ' + value + '<br/>'; 
-                });
-
-                $('#formation').html(string);
-            });
-
-            initMembers(document.members, formation);
-        });
-        //$.getJSON(url, {}, initMembers);  // TODO: Use this for production.
-    </script>
-
+    <script src='js/knesset-allstars.js'></script>
 </body>
 </html>
 

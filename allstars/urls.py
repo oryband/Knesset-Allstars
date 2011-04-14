@@ -5,7 +5,7 @@ urlpatterns = patterns('',
                        url(r'^$',
                            'django.views.generic.simple.redirect_to',
                            #{'url': 'static/index.html'}),
-                           {'url': 'http://localhost:8000/static/html/knesset-allstars/index.html'}),
+                           {'url': 'http://localhost:8000/static/index.html'}),
 
                        #url(r'^$',
                            #'allstars.views.index',

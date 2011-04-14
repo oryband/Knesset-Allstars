@@ -39,6 +39,7 @@
       .member     { margin: 2px; display:inline; line-height: 0;}
 
       .oknesset_frame { z-index: 1; } /* Letting the widget override the members' profile pictures. */
+
   </style>
 
 </head>
@@ -79,7 +80,7 @@
       var callback = function (data, textStatus, xhr) {
           var template = '{{#member}}{{#is_current}}<div class="member" id="member_{{id}}" mk_id="{{id}}"><img src="{{img_url}}"></div>{{/is_current}}{{/member}}';
 
-          var images = Mustache.to_html( template, {"member": data} ); // TODO: Load pre-cached members (development use ONLY).
+          var images = Mustache.to_html( template, {"member": data} );
           $('#members').html(images);
 
           $('.member').draggable( { 
@@ -87,25 +88,18 @@
           } );
 
           $('.role').droppable( { 
-              accept : '.member',
-              drop : function( e, ui ) {
-                ui.draggable.detach().appendTo(this);
-              }
+              accept: '.member',
           });
           $('#members').droppable( { 
               accept: '.member',
-              drop : function( e, ui ) {
-                ui.draggable.detach().appendTo(this);
-              }
           });
       };
 
       $(document).ready( function() {
-        callback(document.members); // TODO: Development use ONLY.
+        callback(document.members);
       });
-      //$.getJSON(url, {}, callback); // TODO: This should be used on prouction.
+      //$.getJSON(url, {}, callback);
   </script>
   
 </body>
 </html>
-

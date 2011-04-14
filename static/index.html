@@ -1,105 +1,176 @@
 <!doctype html>  
 <head>
-  <meta charset="utf-8">
+    <meta charset='utf-8'>
 
-  <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame 
-       Remove this if you use the .htaccess -->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>  <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame. Remove this if you use the .htaccess -->
 
-  <!-- CSS -->
-  <!-- <link href="css/knesset-allstars.css" type="text/css" rel="stylesheet"></link> -->
+    <title>Knesset-Allstars</title>
+    <meta name='description' content='Knesset Football Manager :)'>
+    <meta name='author' content='HaSadna'>
 
-  <title></title>
-  <meta name="description" content="">
-  <meta name="author" content="">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>  <!--  Mobile viewport optimized: j.mp/bplateviewport -->
 
-  <!--  Mobile viewport optimized: j.mp/bplateviewport -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-      body     { direction: rtl; width: 90%; margin: 0.5em auto; }
-      body>div { width: 50%; float: left; margin: 0; padding: 0; }
-      img      { border-radius: 1em; -moz-border-radius; 1em; -webkit-border-radius: 1em; }
+    <style>
+        body     { direction: rtl; width: 90%; margin: 0.5em auto; }
+        body>div { width: 50%; float: left; margin: 0; padding: 0; }
+        img      { -webkit-border-radius: 1em; }
 
-      #field     { position: relative; }
-      #field img { width: 100%; }
+        #field     { position: relative; }
+        #field img { width: 100%; }
 
-      .role { height: 6em; position: absolute; background-color: black; opacity: 0.2; }
+        #save, #formation { direction: ltr; }
 
-      .forward  { top: 10%; width: 10em; }
-      .midfield { top: 44%; width: 10em; }
-      .defence  { top: 78%; width: 10em; }
+        .role { height: 10em; position: absolute; background-color: black; opacity: 0.2; }
 
-      .center { left:  32%; width: 36%; }
-      .left   { left:  10%; width: 15%; }
-      .right  { right: 10%; width: 15%; }
+        .forward  { top: 10%; width: 10em; }
+        .midfield { top: 40%; width: 10em; }
+        .defence  { top: 70%; width: 10em; }
 
-      #members    { line-height: 0; }
+        .center { left:  32%; width: 36%; }
+        .center-left  { left:  32%; width: 16%; }
+        .center-right { left:  52%; width: 16%; }
+        .left   { left:  10%; width: 15%; }
+        .right  { right: 10%; width: 15%; }
 
-      .member img { width: 36px;  }
-      .member     { margin: 2px; display:inline; line-height: 0;}
+        #members    { line-height: 0; }
 
-      .oknesset_frame { z-index: 1; } /* Letting the widget override the members' profile pictures. */
+        .member img { width: 36px;  }
+        .member     { margin: 2px; display:inline; line-height: 0;}
 
-  </style>
-
+        .oknesset_frame { z-index: 1; } /* Letting the widget override the members' profile pictures. */
+    </style>
 </head>
 
 <body>
-  <header></header>
+    <header></header>
 
-  <div id="field">
-    <img src="img/field.png" />
-    <div class="role forward  left"></div><div class="role forward  center"></div><div class="role forward  right"></div>
-    <div class="role midfield left"></div><div class="role midfield center"></div><div class="role midfield right"></div>
-    <div class="role defence  left"></div><div class="role defence  center"></div><div class="role defence  right"></div>
-  </div>
+    <a id='save'>Print</a>
+    <p id='formation'></p>
 
-  <div id="members"></div>
+    <div id='field'>
+        <img src='img/field.png' />
+        <span class='role forward  left'></span>
+        <span class='role forward  center'></span>
+        <span class='role forward  right'></span>
 
-  <footer></footer>
+        <span class='role midfield left'></span>
+        <span class='role midfield center-left'></span>
+        <span class='role midfield center-right'></span>
+        <span class='role midfield right'> </span>
 
-  <!-- Javascript at the bottom for fast page loading -->
+        <span class='role defence  left'></span>
+        <span class='role defence  center'></span>
+        <span class='role defence  right'></span>
+    </div>
 
-  <!-- Grab Google CDN's jQuery. fall back to local if necessary -->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script> 
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="js/jquery-1.4.2.js"%3E%3C/script%3E'))</script>
+    <div id='members'></div>
 
-  <script src="js/lib/jquery-ui/jquery-ui-1.8.7.custom.min.js"></script>
-  <script src="js/lib/mustache/mustache.js"></script>
+    <footer></footer>
 
-  <script src="js/members.js"></script>
+    <!-- Javascript at the bottom for fast page loading -->
 
-  <script src="http://oknesset.org/static/js/oknesset_widget.js"></script> 
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="js/oknesset_widget.js"%3E%3C/script%3E'))</script>
-  <!--<script src="knesset-allstars.js"></script>-->
-  <script>
-      //var url = 'http://oknesset.org/api/member/';
-      //var url = 'http://localhost:8000/api/member/';
-      //var url = 'http://localhost:8000/api/member/771/';
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js'></script>  <!-- Grab Google CDN's jQuery. fall back to local if necessary -->
+    <script>!window.jQuery && document.write(unescape('%3Cscript src="js/jquery-1.4.2.js"%3E%3C/script%3E'))</script>
 
-      var callback = function (data, textStatus, xhr) {
-          var template = '{{#member}}{{#is_current}}<div class="member" id="member_{{id}}" mk_id="{{id}}"><img src="{{img_url}}"></div>{{/is_current}}{{/member}}';
+    <script src='js/lib/jquery-ui/jquery-ui-1.8.7.custom.min.js'></script>
+    <script src='js/lib/mustache/mustache.js'></script>
 
-          var images = Mustache.to_html( template, {"member": data} );
-          $('#members').html(images);
+    <script src='js/members.js'></script>
 
-          $('.member').draggable( { 
-              revert: "invalid",
-          } );
+    <script src='http://oknesset.org/static/js/oknesset_widget.js'></script> 
+    <script>!window.jQuery && document.write(unescape('%3Cscript src="js/oknesset_widget.js"%3E%3C/script%3E'))</script>
 
-          $('.role').droppable( { 
-              accept: '.member',
-          });
-          $('#members').droppable( { 
-              accept: '.member',
-          });
-      };
+    <script>
+        var that;
+        var callback = function (data, formation) {
+            var template = '{{#member}}{{#is_current}}<div class="member" id="member_{{id}}" mk_id="{{id}}"><img src="{{img_url}}"></div>{{/is_current}}{{/member}}';
 
-      $(document).ready( function() {
-        callback(document.members);
-      });
-      //$.getJSON(url, {}, callback);
-  </script>
-  
+            var images = Mustache.to_html( template, {'member': data} );  // Build member's images list.
+            $('#members').html(images);  // Push images to HTML.
+
+            $('.member') .draggable( { revert : 'invalid' } );  // Set members in list to be draggable.
+            $('#members').droppable( { accept : '.member' } );  // Set members list to be a droppable area.
+
+            $('.role').droppable({
+                accept : '.member',  // Set role 'baskets' to be a droppable area.
+                drop   : function (e, ui) {  // Add member to formation on drop to basket.
+                    var classes = $(this)[0].className.split(/\s+/);
+                    var position, side;
+
+                    if ( $.inArray('forward', classes) != -1 ) {
+                        position = 'forward';
+                    } else if ( $.inArray('midfield', classes) != -1 ) {
+                        position = 'midfield';
+                    } else if ( $.inArray('defence', classes) != -1 ) {
+                        position = 'defence';
+                    }
+
+                    if ( $.inArray('left', classes) != -1 ) {
+                        side = 'left';
+                    } else if ( $.inArray('center', classes) != -1 ) {
+                        side = 'center';
+                    } else if ( $.inArray('center-left', classes) != -1 ) {
+                        side = 'center-left';
+                    } else if ( $.inArray('center-right', classes) != -1 ) {
+                        side = 'center-right';
+                    } else if ( $.inArray('right', classes) != -1 ) {
+                        side = 'right';
+                    }
+                        
+                    var oldMkId = formation[position + '-' + side];
+                    var newMkId = parseInt( ui.draggable.attr('mk_id'), 10 );
+
+                    // Old member cleanup.
+                    $.each(formation, function(key, value) {  // Clear oldMkId from old basket.
+                        /*if (value == oldMkId) {
+                            formation[key] = null;
+                            return false;  // =break
+                        }*/
+                    });
+                    if ( oldMkId != null && newMkId != oldMkId ) {  // Return old member to members' list.
+                        var re = '.member[mk_id="' + oldMkId + '"]';
+                        $(re).css('left', 0);
+                        $(re).css('top',  0);
+                    }
+
+                    formation[position + '-' + side] = newMkId;  // Push new member to basket.
+
+                    console.log(formation);
+                }
+            });
+        };
+
+        $(document).ready( function() {
+            var formation = {
+                'forward-left'          : null,
+                'forward-center'        : null,
+                'forward-right'         : null,
+
+                'midfield-left'         : null,
+                'midfield-center-left'  : null,
+                'midfield-center-right' : null,
+                'midfield-right'        : null,
+
+                'defence-left'          : null,
+                'defence-center'        : null,
+                'defence-right'         : null
+            };
+
+            $('#save').click(function (e) {
+                var string = '';
+                $.each(formation, function(key, value) {
+                    string += key + ' : ' + value + '<br/>'; 
+                });
+                
+            
+                $('#formation').html(string);
+            });
+
+            callback(document.members, formation);
+        });
+        //$.getJSON(url, {}, callback);
+    </script>
+
 </body>
 </html>
+

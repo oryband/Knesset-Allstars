@@ -33,12 +33,12 @@
       .left   { left:  10%; width: 15%; }
       .right  { right: 10%; width: 15%; }
 
-      #members    { line-height: 0; }
+      #faces { line-height: 0;}
 
-      .member img { width: 36px;  }
+      .member img { width: 36px;  z-index: 1;}
       .member     { margin: 2px; display:inline; line-height: 0;}
 
-      .oknesset_frame { z-index: 1; } /* Letting the widget override the members' profile pictures. */
+      .member { z-index: 1; } /* Letting the widget override the members' profile pictures. */
 
   </style>
 
@@ -54,7 +54,10 @@
     <div class="role defence  left"></div><div class="role defence  center"></div><div class="role defence  right"></div>
   </div>
 
-  <div id="members"></div>
+  <div id="members">
+    <div id="member_info"></div>
+    <div id="faces"></div>
+</div>
 
   <footer></footer>
 
@@ -77,11 +80,11 @@
       //var url = 'http://localhost:8000/api/member/';
       //var url = 'http://localhost:8000/api/member/771/';
 
-      var callback = function (data, textStatus, xhr) {
+      function init_members(data, textStatus, xhr) {
           var template = '{{#member}}{{#is_current}}<div class="member" id="member_{{id}}" mk_id="{{id}}"><img src="{{img_url}}"></div>{{/is_current}}{{/member}}';
 
           var images = Mustache.to_html( template, {"member": data} );
-          $('#members').html(images);
+          $('#faces').html(images);
 
           $('.member').draggable( { 
               revert: "invalid",
@@ -90,15 +93,26 @@
           $('.role').droppable( { 
               accept: '.member',
           });
-          $('#members').droppable( { 
+          $('#faces').droppable( { 
               accept: '.member',
           });
-      };
 
+          $('.member').hover( function (event) {
+              if ((event.type == 'mouseenter')){ // && (!jQuery('.ui-draggable-dragging') )) {
+                  var id = parseInt(jQuery(event.currentTarget).attr('mk_id'));
+                  jQuery.each(document.members, function (i,m) {
+                      if (m.id == id) {
+                          $('#member_info').html(m.name);
+                          return (false);
+                        }
+                  })
+              } 
+          })
+      }
       $(document).ready( function() {
-        callback(document.members);
+        init_members(document.members);
       });
-      //$.getJSON(url, {}, callback);
+      //$.getJSON(url, {}, init_members);
   </script>
   
 </body>

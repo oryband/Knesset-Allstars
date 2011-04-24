@@ -13,5 +13,7 @@
 
         python manage.py runserver
 
-4. PROFIT! :)
+4. Surf to http://localhost:8000
+
+5. PROFIT! :)
 
